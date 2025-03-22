@@ -15,4 +15,4 @@ Am folosit aplicația Flask `calculator.py` și am containerizat-o cu Docker, ap
 ```bash
 docker build -t calc .
 docker run -p 8080:8080 calc
-✅ Triggered GitHub Actions build.
+
