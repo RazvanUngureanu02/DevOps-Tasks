@@ -32,6 +32,13 @@ Scriptul acoperă toate cerințele din task, inclusiv cele bonus:
 
 ```bash
 docker run -it ubuntu
+
+2. Creează fișierul în container:
+
 nano linux_essentials.sh
+
+3. Dupa ce se scrie codul se salvează cu CTRL+O, Enter, apoi CTRL+X
+
+4. Rulează comanda:
 chmod +x linux_essentials.sh
 ./linux_essentials.sh
