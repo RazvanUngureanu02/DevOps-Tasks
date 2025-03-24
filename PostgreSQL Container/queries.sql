@@ -1,7 +1,7 @@
--- 1. Total angajați
+-- 1. Total employees
 SELECT COUNT(*) AS total_employees FROM employees;
 
--- 2. Angajații din departamentul 'IT'
+-- 2. IT employees
 SELECT first_name, last_name
 FROM employees e
 JOIN departments d ON e.department_id = d.department_id
