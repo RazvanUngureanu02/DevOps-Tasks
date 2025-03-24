@@ -26,26 +26,21 @@ This folder contains a complete Python web application containerized with Docker
 ## How to Use
 
 ### 1. Pull image from Docker Hub
+
 ```bash
 docker pull alexandruungureanu/calculator:<commit_hash>
-### 2. Run container
-bash
-Copy
-Edit
-docker run -p 8080:8080 alexandruungureanu/calculator:<commit_hash>
-Then open in browser:
 
-arduino
-Copy
-Edit
+## Run Container
+docker run -p 8080:8080 alexandruungureanu/calculator:<commit_hash>
+
+## Then open in browser:
 http://localhost:8080
-API Endpoints
+
+## API Endpoints
 POST /calculate
 Request Body (JSON):
 
 json
-Copy
-Edit
 {
   "operation": "add",
   "numbers": [1, 2, 3]
@@ -53,35 +48,34 @@ Edit
 Response:
 
 json
-Copy
-Edit
 {
   "result": 6
 }
+
 GET /
 Returns a web interface for calculator operations.
 
-Manual Build (Optional)
+## Manual Build (Optional)
 To test locally without pulling from Docker Hub:
 
-bash
-Copy
-Edit
 docker build -t calculator .
 docker run -p 8080:8080 calculator
+
 GitHub Actions Automation
-Triggered on push to the main branch
+GitHub Actions CI/CD pipeline is configured to:
 
-Builds Docker image with the current commit hash
+Trigger on push to the main branch
 
-Pushes the image to Docker Hub: alexandruungureanu/calculator
+Build the Docker image using the Dockerfile
 
-Defined in .github/workflows/docker-image.yml
+Tag the image using the current commit hash
 
-Dockerfile Summary
-dockerfile
-Copy
-Edit
+Push the image to Docker Hub: alexandruungureanu/calculator
+
+Workflow file location:
+.github/workflows/docker-image.yml
+
+## Dockerfile Summary
 FROM python:3.10-slim
 WORKDIR /app
 COPY calculator.py /app/
@@ -90,14 +84,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 ENV APP_PORT=8080
 EXPOSE 8080
 CMD ["gunicorn", "--bind", "0.0.0.0:8080", "calculator:app"]
+
 Bonus Features
 Graceful Shutdown
-The app uses Python’s signal module to handle container termination events.
+The app uses Python’s signal module to handle container termination events (SIGINT, SIGTERM).
 
 Environment Variables
 The port is configurable using:
-
-dockerfile
-Copy
-Edit
 ENV APP_PORT=8080
