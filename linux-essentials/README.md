@@ -1,44 +1,71 @@
-
+```
 # Linux Essentials – Task I
 
-Acest folder conține un script complet care automatizează toți pașii ceruți în Task-ul I din proiectul DevOps Internship 2025.
-## Conținut
+This folder contains a complete Bash script that automates all steps required in Task I of the DevOps Internship 2025 project.
 
-- `linux_essentials.sh` – Scriptul Bash care rulează toate comenzile cerute
-- `README.md` – Documentul de față, cu explicații
-## Ce face scriptul
+## Contents
 
-Scriptul acoperă toate cerințele din task, inclusiv cele bonus:
+- `linux_essentials.sh` – Main Bash script to perform all actions
+- `README.md` – This documentation file
 
-1. Actualizează sistemul și instalează pachetele necesare: `dnsutils`, `net-tools`, `nano`, `curl`, `netcat`, `nginx`
-2. Face lookup la `cloudflare.com` folosind `dig`
-3. Adaugă în `/etc/hosts` linia `8.8.8.8 google-dns`
-4. Verifică dacă portul DNS 53 este deschis pentru `google-dns` cu `netcat`
-5. Modifică nameserver-ul la `8.8.8.8` în `/etc/resolv.conf`
-6. Face din nou lookup la `cloudflare.com` pentru a verifica dacă DNS-ul funcționează
-7. Instalează și pornește serviciul `nginx`
-8. Afișează porturile active pe care ascultă `nginx` (`ss -tuln | grep LISTEN`)
+## What the script does
 
-### Bonusuri implementate:
+The script handles all mandatory requirements and the bonus steps as well:
 
-9. Schimbă portul Nginx din 80 în 8080 în fișierul de config
-10. Repornește Nginx și verifică ascultarea pe portul 8080
-11. Schimbă titlul HTML din pagina default nginx
-12. Verifică modificarea folosind `curl` și caută tag-ul `<title>`
+## Main Tasks:
 
-## Cum se folosește
+1. Updates the system and installs necessary packages: `dnsutils`, `net-tools`, `nano`, `curl`, `netcat`, `nginx`
+2. Performs a DNS lookup for `cloudflare.com` using `dig`
+3. Maps the IP address `8.8.8.8` to the hostname `google-dns` by appending it to `/etc/hosts`
+4. Verifies if DNS port 53 is open for `google-dns` using `netcat`
+5. Changes the system DNS resolver to use Google DNS (`8.8.8.8`) in `/etc/resolv.conf`
+6. Performs another lookup for `cloudflare.com` to ensure the new DNS is active
+7. Starts the Nginx web server service
+8. Displays all currently active listening ports (expecting Nginx on port 80)
 
-1. Deschide un container Ubuntu folosind Docker:
+## Bonus Implementations:
 
+9. Changes Nginx's default listening port from `80` to `8080` in its configuration file
+10. Restarts the Nginx service and verifies it is now listening on port `8080`
+11. Modifies the default title in the Nginx welcome HTML page from `"Welcome to nginx!"` to `"I have completed the Linux part of the DevOps internship project"`
+12. Uses `curl` to validate the title change by filtering the response for the `<title>` tag
+
+## How to Use
+
+> All steps must be executed inside an Ubuntu Docker container
+
+### 1. Start an Ubuntu container:
 ```bash
 docker run -it ubuntu
+```
 
-2. Creează fișierul în container:
-
+### 2. Create the script file inside the container:
+```bash
 nano linux_essentials.sh
+```
+Paste the full script content and save it with `CTRL + O`, press `Enter`, then exit with `CTRL + X`
 
-3. Dupa ce se scrie codul se salvează cu CTRL+O, Enter, apoi CTRL+X
-
-4. Rulează comanda:
+### 3. Make the script executable:
+```bash
 chmod +x linux_essentials.sh
+```
+
+### 4. Run the script:
+```bash
 ./linux_essentials.sh
+```
+
+## Output
+
+If everything works correctly, the script will display messages confirming:
+- DNS lookup success
+- DNS port 53 is open
+- Nginx is running and listening on port 8080
+- Modified HTML title from the Nginx default page
+
+You can then open your browser and navigate to:
+```
+http://localhost:8080
+```
+If port forwarding is properly configured, you should see the custom title displayed in the Nginx page.
+
