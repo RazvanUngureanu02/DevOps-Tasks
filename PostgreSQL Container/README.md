@@ -1,71 +1,72 @@
-# PostgreSQL Container – Task III
+# PostgreSQL Container - Task III
 
-Acest folder conține toate fișierele necesare pentru rularea completă a Task-ului III din proiectul DevOps Internship 2025.
+This folder contains all the files needed to run the complete Task III of the DevOps Internship 2025 project.
 
-## Conținut
+## Contents
 
-- `init_company.sql` – Script SQL pentru creare și populare baze de date
-- `queries.sql` – Interogări SQL cerute în task
-- `setup.sh` – Script Bash pentru automatizarea întregului proces
-- `output.log` – Fișier de log cu rezultatele interogărilor SQL
-- `dump_company.sql` – Exportul bazei de date PostgreSQL
-- `README.md` – Acest fișier de documentație
+- `init_company.sql` - SQL script for creating and populating databases
+- `queries.sql` - SQL queries requested in the task
+- `setup.sh` - Bash script for automating the whole process
+- `output.log` - Log file with results of SQL queries
+- `dump_company.sql` - PostgreSQL database export
+- `README.md` - This documentation file
 
-## Ce face proiectul
+## What the project does
 
-Acest task configurează un container PostgreSQL, importă datele în baza de date și rulează interogări relevante.
+This task configures a PostgreSQL container, imports data into the database and runs relevant queries.
 
-## Pași principali
+## Main steps
 
-1. Creează un container Docker PostgreSQL:
-   - Bază de date: `company_db`
-   - Utilizator personalizat: `ituser`
-   - Port expus: `5432`
+1. Create a Docker PostgreSQL container:
+   - Database: `company_db`
+   - Custom user: `ituser`
+   - Exposed port: `5432`
 
-2. Rulează scriptul SQL `init_company.sql`:
-   - Creează tabelele: `departments`, `employees`, `salaries`
-   - Inserează date în toate cele trei tabele
-   - Se inserează 76 de angajați și salariile aferente
+2. Run the SQL script `init_company.sql`:
+   - Create tables: `departments`, `employees`, `salaries`
+   - Insert data in all three tables
+   - Insert 76 employees and their salaries
 
-3. Rulează interogările din `queries.sql`:
-   - Afișează numărul total de angajați
-   - Selectează numele angajaților dintr-un anumit departament
-   - Calculează salariul maxim și minim pe fiecare departament
-   - Rezultatele se salvează în `output.log`
+3. Run the queries in `queries.sql`:
+   - Displays the total number of employees
+   - Select the names of employees in a given department
+   - Calculates the maximum and minimum salary per department
+   - Results are saved in `output.log`
 
-4. Exportă baza de date în `dump_company.sql` folosind `pg_dump`
+4. Export the database to `dump_company.sql` using `pg_dump`
 
-5. Automatizează toți pașii de mai sus cu scriptul `setup.sh`:
-   - Creează userul `admin_cee`
-   - Rulează `init_company.sql`
-   - Rulează `queries.sql` și salvează rezultatele
+5. Automate all the above steps with the `setup.sh` script:
+   - Create user `admin_cee`
+   - Run `init_company.sql`
+   - Run `queries`.
 
-## Cum se folosește
 
-> Toate comenzile se execută dintr-un container deja pornit și configurat (cu Docker și PostgreSQL instalat)
+## How to use
 
-### 1. Deschide containerul:
+> All commands are executed from an already started and configured container (with Docker and PostgreSQL installed)
+
+### 1. Open the container:
 ```bash
 docker exec -it pg-container bash
 ```
 
-### 2. Rulează scriptul setup:
+### 2. Run the setup script:
 ```bash
 chmod +x setup.sh
 ./setup.sh
 ```
 
-### 3. Verifică rezultatele:
+### 3. Check the results:
 ```bash
 cat output.log
 ```
 
 ## Output
 
-Dacă totul este configurat corect, în fișierul `output.log` vei regăsi:
-- Numărul total de angajați (76)
-- Numele angajaților din departamentul selectat
-- Cel mai mare și cel mai mic salariu pe fiecare departament
+If everything is configured correctly, in the `output.log` file you will find:
+- Total number of employees (76)
+- Names of employees in the selected department
+- Highest and lowest salary per department
 
 
 
