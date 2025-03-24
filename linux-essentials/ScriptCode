@@ -5,61 +5,63 @@
 # Linux Essentials Script
 # -------------------------------
 
-# Actualizează lista de pachete
+# Update the package list
 echo "Updating package list..."
 apt update -y
 
-# Instalează pachetele necesare
+# Install required tools
 echo "Installing required packages..."
 apt install -y dnsutils nano net-tools iputils-ping curl netcat-traditional nginx
 
-# TASK 1: Lookup IP pentru cloudflare.com
+# TASK 1: Lookup the IP of cloudflare.com
 echo "Looking up IP for cloudflare.com (initial)..."
 dig +short cloudflare.com
 
-# TASK 2: Mapare IP 8.8.8.8 la hostname google-dns în /etc/hosts
+# TASK 2: Map IP 8.8.8.8 to hostname google-dns in /etc/hosts
 echo "Mapping 8.8.8.8 to google-dns in /etc/hosts..."
 echo "8.8.8.8    google-dns" >> /etc/hosts
 
-# TASK 3: Verificare port DNS 53 pentru google-dns
+# TASK 3: Check if port 53 (DNS) is open for google-dns
 echo "Checking if port 53 is open on google-dns..."
 nc -zv google-dns 53
 
-# TASK 4: Schimbare nameserver la DNS-ul public Google
+# TASK 4: Change system DNS to Google's Public DNS
 echo "Setting nameserver to 8.8.8.8 in /etc/resolv.conf..."
 echo "nameserver 8.8.8.8" > /etc/resolv.conf
 
-# Verificare cloudflare.com după schimbarea DNS-ului
+# Verify IP lookup again for cloudflare.com using new DNS
 echo "Looking up IP for cloudflare.com (after DNS change)..."
 dig +short cloudflare.com
 
-# TASK 5: Pornire și verificare serviciu Nginx
+# TASK 5: Start and check status of Nginx service
 echo "Starting nginx service..."
 service nginx start
 
 echo "Verifying nginx service status..."
 service nginx status
 
-# TASK 6: Afișare porturi pe care ascultă Nginx
+# TASK 6: Display listening ports (default should be port 80)
 echo "Showing listening ports (expecting port 80)..."
 ss -tuln | grep LISTEN
 
-# BONUS 1: Schimbare port Nginx de la 80 la 8080
+# BONUS 1: Change Nginx port from 80 to 8080
 echo "Changing nginx port to 8080..."
 sed -i 's/listen 80 default_server;/listen 8080 default_server;/g' /etc/nginx/sites-available/default
 sed -i 's/listen \[::\]:80 default_server;/listen [::]:8080 default_server;/g' /etc/nginx/sites-available/default
 
+# Restart Nginx with the new configuration
 echo "Restarting nginx with new port..."
 service nginx restart
 
+# Confirm the updated listening port
 echo "Showing updated listening ports (expecting port 8080)..."
 ss -tuln | grep 8080
 
-# BONUS 2: Schimbare titlu HTML în pagina implicită Nginx
+# BONUS 2: Modify the default Nginx HTML page title
 echo "Modifying default nginx HTML page title..."
 sed -i 's/Welcome to nginx!/I have completed the Linux part of the DevOps internship project/g' /var/www/html/index.nginx-debian.html
 
-# Verificare modificare titlu cu curl (opțional)
+# Optional: Verify title change using curl
 echo "Checking modified HTML title (curl output):"
 curl http://localhost:8080 2>/dev/null | grep "<title>"
 
