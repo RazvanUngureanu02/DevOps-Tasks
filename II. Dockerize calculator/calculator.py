@@ -3,10 +3,10 @@ import os
 import signal
 import sys
 
-# Inițializează aplicația Flask
+# Initialize the Flask application
 app = Flask(__name__)
 
-# HTML-ul trimis la accesarea rădăcinii (/) pentru testare interactivă
+# HTML template for the web interface
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html>
@@ -52,24 +52,28 @@ HTML_TEMPLATE = """
 </html>
 """
 
-# Ruta principală care returnează interfața HTML
+# Route that renders the HTML interface
 @app.route('/')
 def home():
     return render_template_string(HTML_TEMPLATE)
 
-# Ruta POST pentru calcul
+# Route that handles the POST request and performs the calculation
 @app.route('/calculate', methods=['POST'])
 def calculate():
     data = request.get_json()
 
-    # Validare input
+    # Input validation
     if not data or 'operation' not in data or 'numbers' not in data:
         return jsonify({'error': 'Invalid input'}), 400
 
     operation = data['operation']
     numbers = data['numbers']
 
-    # Aplica operația cerută
+    # Check for None or invalid number list
+    if not isinstance(numbers, list) or any(n is None for n in numbers):
+        return jsonify({'error': 'Invalid number list'}), 400
+
+    # Perform the requested operation
     if operation == 'add':
         result = sum(numbers)
     elif operation == 'multiply':
@@ -81,16 +85,16 @@ def calculate():
 
     return jsonify({'result': result})
 
-# Funcție apelată la oprirea containerului pentru shutdown curat
+# Graceful shutdown function to handle termination signals
 def handle_shutdown(signum, frame):
     print("Shutting down the Flask app cleanly...")
     sys.exit(0)
 
-# Legare semnale SIGTERM și SIGINT la funcția de shutdown
+# Link termination signals to the shutdown handler
 signal.signal(signal.SIGTERM, handle_shutdown)
 signal.signal(signal.SIGINT, handle_shutdown)
 
-# Pornirea aplicației Flask pe portul definit (default 8080)
+# Start the application on the defined port (default to 8080)
 if __name__ == '__main__':
-    port = int(os.environ.get("APP_PORT", 8080))  # Preia portul din variabilă de mediu dacă există
+    port = int(os.environ.get("APP_PORT", 8080))  # Get port from environment variable, fallback to 8080
     app.run(host='0.0.0.0', port=port)
