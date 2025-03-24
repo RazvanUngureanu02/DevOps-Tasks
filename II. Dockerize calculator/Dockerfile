@@ -1,21 +1,21 @@
-# Folosește imaginea de bază Python slim pentru un container lightweight
+# Use a lightweight official Python base image
 FROM python:3.10-slim
 
-# Setează directorul de lucru din container
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copiază fișierele aplicației în container
+# Copy application files into the container
 COPY calculator.py /app/
 COPY requirements.txt /app/
 
-# Instalează toate dependențele specificate în requirements.txt
+# Install all dependencies listed in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Setează o variabilă de mediu pentru port (poate fi modificată ușor)
+# Define a default environment variable for the port
 ENV APP_PORT=8080
 
-# Expune portul 8080 către exterior (portul pe care va rula gunicorn)
+# Expose port 8080 to allow external access
 EXPOSE 8080
 
-# Comandă de rulare a aplicației Flask folosind gunicorn
+# Start the Flask application using Gunicorn
 CMD ["gunicorn", "--bind", "0.0.0.0:8080", "calculator:app"]
