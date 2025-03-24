@@ -25,7 +25,7 @@ This folder contains a complete Python web application containerized with Docker
 
 ## How to Use
 
-### 1. Pull image from Docker Hub
+### 1. Pull Image from Docker Hub
 
 ```bash
 docker pull alexandruungureanu/calculator:<commit_hash>
